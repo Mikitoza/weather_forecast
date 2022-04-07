@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-///TODO:Choose class or function
 class WeatherAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
