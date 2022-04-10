@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 abstract class WeatherColors{
-  static const white = Color(0xFFE3D9D9);
+  static const white = Color(0xFFE3EDFF);
   static const grey = Color(0xFF7D7D7D);
   static const black = Color(0xFF1F1F1F);
   static const lightYellow = Color(0xFFFFA13F);

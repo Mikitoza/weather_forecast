@@ -5,7 +5,7 @@ import 'package:weather_forecast/presentation/utils/weather_text_styles.dart';
 
 final lightTheme = WeatherTheme(
   primaryColor: WeatherColors.lightYellow,
-  accentColor: WeatherColors.blue,
+  accentColor: WeatherColors.lightYellow,
   primaryBackgroundColor: WeatherColors.white,
   primaryTextColor: WeatherColors.black,
   accentTextColor: WeatherColors.orange,
@@ -14,7 +14,10 @@ final lightTheme = WeatherTheme(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.black,
   ),
-  appbarTextStyle: WeatherTextStyles.appbar(WeatherColors.black),
+  appbarTextStyle: WeatherTextStyles.appbar(
+    textColor: WeatherColors.black,
+    fontSize: WeatherDimens.sizeL,
+  ),
   accentTextStyle: WeatherTextStyles.base(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.orange,
@@ -32,7 +35,10 @@ final darkTheme = WeatherTheme(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.black,
   ),
-  appbarTextStyle: WeatherTextStyles.appbar(WeatherColors.black),
+  appbarTextStyle: WeatherTextStyles.appbar(
+    textColor: WeatherColors.black,
+    fontSize: WeatherDimens.sizeL,
+  ),
   accentTextStyle: WeatherTextStyles.base(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.orange,

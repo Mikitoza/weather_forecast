@@ -5,13 +5,17 @@ abstract class WeatherTextStyles {
   static TextStyle base({required Color textColor, double? fontSize}) {
     return TextStyle(
       color: textColor,
-      fontSize: fontSize ?? WeatherDimens.sizeM,
+      fontSize: fontSize ?? WeatherDimens.sizeXL,
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w300,
     );
   }
 
-  static TextStyle appbar(Color textColor) {
+  static TextStyle appbar({required Color textColor, double? fontSize}) {
     return base(textColor: textColor).copyWith(
-      fontSize: WeatherDimens.sizeXL,
+      fontStyle: FontStyle.normal,
+      fontSize: fontSize,
+      color: textColor,
     );
   }
 }
