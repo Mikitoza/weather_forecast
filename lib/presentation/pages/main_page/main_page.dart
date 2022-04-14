@@ -61,6 +61,7 @@ class _MainPageState extends State<MainPage> {
         _cubit.setTitle('Today');
         return const TodayTab();
       case MainPageTab.forecast:
+        _cubit.setCity();
         return Container(color: Colors.green);
     }
   }

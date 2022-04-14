@@ -25,7 +25,7 @@ class _WeatherAppBarState extends State<WeatherAppBar> {
       backgroundColor: ThemeProvider.of(context).theme.primaryBackgroundColor,
       title: Text(
         widget.title,
-        style: ThemeProvider.of(context).theme.primaryTextStyle,
+        style: ThemeProvider.of(context).theme.appbarTextStyle,
       ),
       centerTitle: true,
       bottom: _colorLines(widget.colors),

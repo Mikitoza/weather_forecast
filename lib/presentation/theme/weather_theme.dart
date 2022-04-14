@@ -10,8 +10,10 @@ class WeatherTheme extends Equatable {
   final Color accentTextColor;
   final Color actionTextColor;
   final TextStyle primaryTextStyle;
+  final TextStyle primaryItalicTextStyle;
   final TextStyle appbarTextStyle;
   final TextStyle accentTextStyle;
+  final TextStyle actionTextStyle;
 
   const WeatherTheme({
     required this.primaryColor,
@@ -21,8 +23,10 @@ class WeatherTheme extends Equatable {
     required this.accentTextColor,
     required this.actionTextColor,
     required this.primaryTextStyle,
+    required this.primaryItalicTextStyle,
     required this.appbarTextStyle,
     required this.accentTextStyle,
+    required this.actionTextStyle,
   });
 
   @override
@@ -36,5 +40,6 @@ class WeatherTheme extends Equatable {
         primaryTextStyle,
         appbarTextStyle,
         accentTextStyle,
+        actionTextStyle,
       ];
 }

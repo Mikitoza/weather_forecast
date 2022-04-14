@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_forecast/data/models/location.dart';
 import 'package:weather_forecast/injector.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_cubit.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_state.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
-import 'package:weather_forecast/presentation/utils/weather_dimens.dart';
-import 'package:weather_forecast/presentation/utils/weather_text_styles.dart';
 
 class TodayTab extends StatefulWidget {
   const TodayTab({Key? key}) : super(key: key);
@@ -16,6 +15,14 @@ class TodayTab extends StatefulWidget {
 
 class _TodayTabState extends State<TodayTab> {
   final _cubit = locator.get<TodayTabCubit>();
+
+  @override
+  void initState() {
+    _cubit.init(
+      Location(lat: 51.509865, lon: -0.118092),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +40,16 @@ class _TodayTabState extends State<TodayTab> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-
-            ///TODO:Replace WeatherTextStyles to Theme
             Text(
-              state.city,
-              style: WeatherTextStyles.base(
-                textColor: ThemeProvider.of(context).theme.primaryTextColor,
-              ),
+              '${state.city}, ${state.country}',
+              style: ThemeProvider.of(context).theme.primaryItalicTextStyle,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Text(
-              state.temperature,
-              style: WeatherTextStyles.appbar(
-                textColor: ThemeProvider.of(context).theme.actionTextColor,
-                fontSize: WeatherDimens.sizeXXXXL,
-              ),
+              '${state.temperature}°C | ${state.main}',
+              style: ThemeProvider.of(context).theme.actionTextStyle,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
-            ///TODO:Change divider's color
             const Divider(
               thickness: 1,
               indent: 110,
@@ -64,29 +62,35 @@ class _TodayTabState extends State<TodayTab> {
               children: [
                 Column(
                   children: [
-                    const RotatedBox(
+                    RotatedBox(
                       quarterTurns: 2,
                       child: Icon(
                         Icons.umbrella_outlined,
+                        color: ThemeProvider.of(context).theme.accentColor,
+                        size: 32,
                       ),
                     ),
-                    Text(state.pop),
+                    Text('${state.pop}%'),
                   ],
                 ),
                 Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.water_drop_outlined,
+                      color: ThemeProvider.of(context).theme.accentColor,
+                      size: 32,
                     ),
-                    Text(state.volume),
+                    Text('${state.volume} mm'),
                   ],
                 ),
                 Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.device_thermostat_outlined,
+                      color: ThemeProvider.of(context).theme.accentColor,
+                      size: 32,
                     ),
-                    Text(state.pressure),
+                    Text('${state.pressure} hPa'),
                   ],
                 ),
               ],
@@ -97,16 +101,20 @@ class _TodayTabState extends State<TodayTab> {
               children: [
                 Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.air,
+                      color: ThemeProvider.of(context).theme.accentColor,
+                      size: 32,
                     ),
-                    Text(state.windSpeed),
+                    Text('${state.windSpeed} km/h'),
                   ],
                 ),
                 Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.explore_outlined,
+                      color: ThemeProvider.of(context).theme.accentColor,
+                      size: 32,
                     ),
                     Text(state.windDirection),
                   ],
@@ -124,10 +132,7 @@ class _TodayTabState extends State<TodayTab> {
               onPressed: () {},
               child: Text(
                 'Share',
-                style: WeatherTextStyles.appbar(
-                  textColor: ThemeProvider.of(context).theme.accentTextColor,
-                  fontSize: WeatherDimens.sizeXXXXL,
-                ),
+                style: ThemeProvider.of(context).theme.accentTextStyle,
               ),
             ),
           ],
