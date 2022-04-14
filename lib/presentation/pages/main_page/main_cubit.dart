@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast/data/models/location.dart';
-import 'package:weather_forecast/domain/entities/main_page_tabs.dart';
 import 'package:weather_forecast/domain/usecases/main_usecase.dart';
 import 'package:weather_forecast/presentation/pages/main_page/main_state.dart';
 
@@ -12,7 +11,7 @@ class MainCubit extends Cubit<MainState> {
   ) : super(
           const MainState(
             title: 'Today',
-            tab: MainPageTab.today,
+            pageIndex: 0,
           ),
         );
 
@@ -21,14 +20,7 @@ class MainCubit extends Cubit<MainState> {
   }
 
   void setTab(int index) {
-    switch (index) {
-      case 0:
-        emit(state.copyWith(tab: MainPageTab.today));
-        break;
-      case 1:
-        emit(state.copyWith(tab: MainPageTab.forecast));
-        break;
-    }
+    emit(state.copyWith(pageIndex: index));
   }
 
   void setCity() async {

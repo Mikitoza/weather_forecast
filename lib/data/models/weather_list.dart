@@ -1,3 +1,6 @@
+import 'package:weather_forecast/data/models/main_model.dart';
+import 'package:weather_forecast/data/models/weather_model.dart';
+
 class WeatherListItem {
   final int dt;
   final Main main;
@@ -35,63 +38,6 @@ class WeatherListItem {
         pop: json['pop'].toDouble(),
         sys: Sys.fromJson(json['sys']),
         dtTxt: json['dt_txt'],
-      );
-}
-
-class Main {
-  final double temp;
-  final double feelsLike;
-  final double tempMin;
-  final double tempMax;
-  final int pressure;
-  final int seaLevel;
-  final int groundLevel;
-  final int humidity;
-  final double tempKf;
-
-  const Main({
-    required this.temp,
-    required this.feelsLike,
-    required this.tempMin,
-    required this.tempMax,
-    required this.pressure,
-    required this.seaLevel,
-    required this.groundLevel,
-    required this.humidity,
-    required this.tempKf,
-  });
-
-  factory Main.fromJson(Map<String, dynamic> json) => Main(
-        temp: json['temp'],
-        feelsLike: json['feels_like'].toDouble(),
-        tempMin: json['temp_min'],
-        tempMax: json['temp_max'],
-        pressure: json['pressure'],
-        seaLevel: json['sea_level'],
-        groundLevel: json['grnd_level'],
-        humidity: json['humidity'],
-        tempKf: json['temp_kf'].toDouble(),
-      );
-}
-
-class WeatherModel {
-  final int id;
-  final String main;
-  final String description;
-  final String icon;
-
-  const WeatherModel({
-    required this.id,
-    required this.main,
-    required this.description,
-    required this.icon,
-  });
-
-  factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
-        id: json['id'],
-        main: json['main'],
-        description: json['description'],
-        icon: json['icon'],
       );
 }
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_forecast/domain/entities/main_page_tabs.dart';
 import 'package:weather_forecast/injector.dart';
 import 'package:weather_forecast/presentation/pages/main_page/main_cubit.dart';
 import 'package:weather_forecast/presentation/pages/main_page/main_state.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab.dart';
+import 'package:weather_forecast/presentation/widgets/keep_alive_page.dart';
 import 'package:weather_forecast/presentation/widgets/weather_appbar.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
 
@@ -17,6 +18,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final _cubit = locator.get<MainCubit>();
+  final _controller = PageController(
+    initialPage: 0,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +38,20 @@ class _MainPageState extends State<MainPage> {
               Colors.yellowAccent,
             ],
           ),
-          body: _getCurrentTab(context, state.tab),
+          body: PageView(
+            onPageChanged: (index) => _cubit.setTab(index),
+            controller: _controller,
+            children: const [
+              KeepAlivePage(child: TodayTab()),
+              KeepAlivePage(child: ForecastTab()),
+            ],
+          ),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: state.tab.parseTab(),
-            onTap: _cubit.setTab,
+            currentIndex: state.pageIndex,
+            onTap: (int index) {
+              _controller.jumpToPage(index);
+              _cubit.setTab(index);
+            },
             backgroundColor: ThemeProvider.of(context).theme.primaryBackgroundColor,
             items: const [
               BottomNavigationBarItem(
@@ -55,14 +69,9 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _getCurrentTab(BuildContext context, MainPageTab tab) {
-    switch (tab) {
-      case MainPageTab.today:
-        _cubit.setTitle('Today');
-        return const TodayTab();
-      case MainPageTab.forecast:
-        _cubit.setCity();
-        return Container(color: Colors.green);
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }

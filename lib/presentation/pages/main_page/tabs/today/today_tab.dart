@@ -13,7 +13,7 @@ class TodayTab extends StatefulWidget {
   State<TodayTab> createState() => _TodayTabState();
 }
 
-class _TodayTabState extends State<TodayTab> {
+class _TodayTabState extends State<TodayTab> with AutomaticKeepAliveClientMixin{
   final _cubit = locator.get<TodayTabCubit>();
 
   @override
@@ -23,6 +23,9 @@ class _TodayTabState extends State<TodayTab> {
     );
     super.initState();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

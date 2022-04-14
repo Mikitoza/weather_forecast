@@ -1,28 +1,27 @@
 import 'package:equatable/equatable.dart';
-import 'package:weather_forecast/domain/entities/main_page_tabs.dart';
 
 class MainState extends Equatable {
   final String title;
-  final MainPageTab tab;
+  final int pageIndex;
 
   const MainState({
     required this.title,
-    required this.tab,
+    required this.pageIndex,
   });
 
   MainState copyWith({
     String? title,
-    MainPageTab? tab,
+    int? pageIndex,
   }) {
     return MainState(
       title: title ?? this.title,
-      tab: tab ?? this.tab,
+      pageIndex: pageIndex ?? this.pageIndex,
     );
   }
 
   @override
   List<Object?> get props => [
         title,
-        tab,
+    pageIndex,
       ];
 }

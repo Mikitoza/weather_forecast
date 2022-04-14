@@ -9,6 +9,7 @@ class WeatherTheme extends Equatable {
   final Color primaryTextColor;
   final Color accentTextColor;
   final Color actionTextColor;
+  final Color dividerColor;
   final TextStyle primaryTextStyle;
   final TextStyle primaryItalicTextStyle;
   final TextStyle appbarTextStyle;
@@ -22,6 +23,7 @@ class WeatherTheme extends Equatable {
     required this.primaryTextColor,
     required this.accentTextColor,
     required this.actionTextColor,
+    required this.dividerColor,
     required this.primaryTextStyle,
     required this.primaryItalicTextStyle,
     required this.appbarTextStyle,
@@ -34,6 +36,7 @@ class WeatherTheme extends Equatable {
         primaryColor,
         accentColor,
         primaryBackgroundColor,
+        dividerColor,
         primaryTextColor,
         accentTextColor,
         actionTextColor,

@@ -11,6 +11,7 @@ final lightTheme = WeatherTheme(
   primaryTextColor: WeatherColors.black,
   accentTextColor: WeatherColors.orange,
   actionTextColor: WeatherColors.blue,
+  dividerColor: WeatherColors.grey,
   primaryTextStyle: WeatherTextStyles.base(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.black,
@@ -43,6 +44,7 @@ final darkTheme = WeatherTheme(
   primaryTextColor: WeatherColors.black,
   accentTextColor: WeatherColors.orange,
   actionTextColor: WeatherColors.blue,
+  dividerColor: WeatherColors.grey,
   primaryTextStyle: WeatherTextStyles.base(
     fontSize: WeatherDimens.sizeL,
     textColor: WeatherColors.black,
