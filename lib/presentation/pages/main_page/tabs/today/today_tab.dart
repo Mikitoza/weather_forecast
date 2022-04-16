@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_forecast/data/models/location.dart';
 import 'package:weather_forecast/injector.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_cubit.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_state.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
+import 'package:weather_forecast/presentation/widgets/weather_dialog.dart';
 
 class TodayTab extends StatefulWidget {
   const TodayTab({Key? key}) : super(key: key);
@@ -13,23 +13,27 @@ class TodayTab extends StatefulWidget {
   State<TodayTab> createState() => _TodayTabState();
 }
 
-class _TodayTabState extends State<TodayTab> with AutomaticKeepAliveClientMixin{
+class _TodayTabState extends State<TodayTab> {
   final _cubit = locator.get<TodayTabCubit>();
 
   @override
   void initState() {
-    _cubit.init(
-      Location(lat: 51.509865, lon: -0.118092),
-    );
+    _cubit.init();
     super.initState();
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodayTabCubit, TodayTabState>(
+    return BlocConsumer<TodayTabCubit, TodayTabState>(
+      listenWhen: (previous, current) {
+        return previous.isError != current.isError;
+      },
+      listener: (context, state) async {
+        if (state.isError) {
+          _showMyDialog('Test');
+        }
+        _cubit.changeIsError(false);
+      },
       bloc: _cubit,
       builder: (context, state) {
         return Column(
@@ -59,7 +63,6 @@ class _TodayTabState extends State<TodayTab> with AutomaticKeepAliveClientMixin{
               endIndent: 110,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-            //TODO:Think about mainAxisAlignment
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -139,6 +142,18 @@ class _TodayTabState extends State<TodayTab> with AutomaticKeepAliveClientMixin{
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showMyDialog(String desc) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WeatherDialog(
+          desc: desc,
         );
       },
     );

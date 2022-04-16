@@ -7,6 +7,7 @@ import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/fore
 import 'package:intl/intl.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
 import 'package:weather_forecast/presentation/utils/weather_dimens.dart';
+import 'package:weather_forecast/presentation/widgets/weather_dialog.dart';
 
 class ForecastTab extends StatefulWidget {
   const ForecastTab({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class ForecastTab extends StatefulWidget {
   State<ForecastTab> createState() => _ForecastTabState();
 }
 
-class _ForecastTabState extends State<ForecastTab> with AutomaticKeepAliveClientMixin {
+class _ForecastTabState extends State<ForecastTab> {
   final _cubit = locator.get<ForecastTabCubit>();
 
   @override
@@ -25,11 +26,17 @@ class _ForecastTabState extends State<ForecastTab> with AutomaticKeepAliveClient
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ForecastTabCubit, ForecastTabState>(
+    return BlocConsumer<ForecastTabCubit, ForecastTabState>(
+      listenWhen: (previous, current) {
+        return previous.isError != current.isError;
+      },
+      listener: (context, state) async {
+        if (state.isError) {
+          _showMyDialog('Test');
+        }
+        _cubit.changeIsError(false);
+      },
       bloc: _cubit,
       builder: (context, state) {
         return ListView.builder(
@@ -128,6 +135,18 @@ class _ForecastTabState extends State<ForecastTab> with AutomaticKeepAliveClient
         ),
         _weatherListTile(tile)
       ],
+    );
+  }
+
+  Future<void> _showMyDialog(String desc) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WeatherDialog(
+          desc: desc,
+        );
+      },
     );
   }
 }

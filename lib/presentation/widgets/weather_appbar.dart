@@ -32,7 +32,6 @@ class _WeatherAppBarState extends State<WeatherAppBar> {
     );
   }
 
-  ///TODO:Read about correct using of preferredSize
   PreferredSizeWidget _colorLines(List<Color> colors) {
     return PreferredSize(
       child: Row(

@@ -7,6 +7,7 @@ class RemoteDataSource implements IRemoteDataSource {
   final _dio = Dio();
   final _baseUrl = 'http://api.openweathermap.org/data/2.5';
   final _apiKey = '50964f9dc17d20bc5b72d2f965503fce';
+  final _units = 'metric';
 
   @override
   Future<ApiObject> getWeathersList(Location location) async {
@@ -16,7 +17,7 @@ class RemoteDataSource implements IRemoteDataSource {
         'lat': location.lat,
         'lon': location.lon,
         'appid': _apiKey,
-        'units': 'metric',
+        'units': _units,
       },
     );
 

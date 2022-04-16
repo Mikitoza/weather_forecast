@@ -8,6 +8,7 @@ import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_t
 import 'package:weather_forecast/presentation/widgets/keep_alive_page.dart';
 import 'package:weather_forecast/presentation/widgets/weather_appbar.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
+import 'package:weather_forecast/presentation/widgets/weather_dialog.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -24,7 +25,23 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainCubit, MainState>(
+    return BlocConsumer<MainCubit, MainState>(
+      listenWhen: (previous, current) {
+        return previous.isError != current.isError ||
+        previous.pageIndex != current.pageIndex;
+      },
+      listener: (context, state) async {
+        if (state.isError) {
+          _showMyDialog('Test');
+        }
+        if (state.pageIndex == 1){
+          _cubit.setCity();
+        }
+        if (state.pageIndex == 0){
+          _cubit.setTitle('Today');
+        }
+        _cubit.changeIsError(false);
+      },
       bloc: _cubit,
       builder: (context, state) {
         return Scaffold(
@@ -64,6 +81,18 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showMyDialog(String desc) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WeatherDialog(
+          desc: desc,
         );
       },
     );

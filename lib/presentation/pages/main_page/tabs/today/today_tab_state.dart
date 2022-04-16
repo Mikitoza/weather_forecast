@@ -10,6 +10,7 @@ class TodayTabState extends Equatable {
   final int pressure;
   final int windSpeed;
   final String windDirection;
+  final bool isError;
 
   const TodayTabState({
     required this.city,
@@ -21,6 +22,7 @@ class TodayTabState extends Equatable {
     required this.pressure,
     required this.windSpeed,
     required this.windDirection,
+    required this.isError,
   });
 
   TodayTabState copyWith({
@@ -33,6 +35,7 @@ class TodayTabState extends Equatable {
     int? pressure,
     int? windSpeed,
     String? windDirection,
+    bool? isError,
   }) {
     return TodayTabState(
       city: city ?? this.city,
@@ -44,6 +47,7 @@ class TodayTabState extends Equatable {
       pressure: pressure ?? this.pressure,
       windSpeed: windSpeed ?? this.windSpeed,
       windDirection: windDirection ?? this.windDirection,
+      isError: isError ?? this.isError,
     );
   }
 
@@ -56,5 +60,6 @@ class TodayTabState extends Equatable {
         pressure,
         windSpeed,
         windDirection,
+        isError,
       ];
 }

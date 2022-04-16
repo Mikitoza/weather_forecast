@@ -36,6 +36,7 @@ class WeatherListItem {
         wind: Wind.fromJson(json['wind']),
         visibility: json['visibility'],
         pop: json['pop'].toDouble(),
+        rain: json['rain'] != null ? Rain.fromJson(json['rain']) : null,
         sys: Sys.fromJson(json['sys']),
         dtTxt: json['dt_txt'],
       );
@@ -53,7 +54,7 @@ class Clouds {
 
 class Wind {
   final double speed;
-  final int deg;
+  final double deg;
   final double gust;
 
   const Wind({
@@ -63,9 +64,9 @@ class Wind {
   });
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
-        deg: json['deg'],
+        deg: json['deg'].toDouble(),
         gust: json['gust'].toDouble(),
-        speed: json['speed'],
+        speed: json['speed'].toDouble(),
       );
 }
 

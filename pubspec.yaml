@@ -22,6 +22,7 @@ dependencies:
 
   #Platform plugins
   shared_preferences: ^2.0.9
+  location: ^4.2.0
 
 dev_dependencies:
   flutter_test:

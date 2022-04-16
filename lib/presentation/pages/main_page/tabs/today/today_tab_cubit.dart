@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_forecast/data/models/location.dart';
 import 'package:weather_forecast/domain/usecases/today_usecase.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_state.dart';
 
@@ -19,23 +18,33 @@ class TodayTabCubit extends Cubit<TodayTabState> {
             pressure: 0,
             windSpeed: 0,
             windDirection: 'SE',
+            isError: false,
           ),
         );
 
-  void init(Location location) async {
-    final weather = await _todayUseCase.getTodayWeather(location);
-    emit(
-      state.copyWith(
-        city: weather.city,
-        country: weather.country,
-        main: weather.main,
-        temperature: weather.temperature,
-        pop: weather.pop,
-        volume: weather.rain,
-        pressure: weather.pressure,
-        windSpeed: weather.windSpeed,
-        windDirection: weather.windDirection,
-      ),
-    );
+  void init() async {
+    final location = await _todayUseCase.getCurrentLocation();
+    if (location == null) {
+      changeIsError(true);
+    } else {
+      final weather = await _todayUseCase.getTodayWeather((location));
+      emit(
+        state.copyWith(
+          city: weather.city,
+          country: weather.country,
+          main: weather.main,
+          temperature: weather.temperature,
+          pop: weather.pop,
+          volume: weather.rain,
+          pressure: weather.pressure,
+          windSpeed: weather.windSpeed,
+          windDirection: weather.windDirection,
+        ),
+      );
+    }
+  }
+
+  void changeIsError(bool isError) {
+    emit(state.copyWith(isError: isError));
   }
 }
