@@ -1,11 +1,9 @@
 import 'package:weather_forecast/data/models/location.dart' as model;
 import 'package:location/location.dart';
-import 'package:weather_forecast/data/platfrom_client/interfaces/i_location_client.dart';
 
-class LocationClient implements ILocationClient{
+class LocationClient{
   final Location _location = Location();
 
-  @override
   Future<model.Location?> getCurrentLocation() async {
     var serviceEnabled = await _location.serviceEnabled();
     if (!serviceEnabled) {
@@ -33,24 +31,20 @@ class LocationClient implements ILocationClient{
     return currentLocation;
   }
 
-  @override
   Future<bool> hasLocationPermission() async {
     final result = await _location.hasPermission();
     return result == PermissionStatus.granted || result == PermissionStatus.grantedLimited;
   }
 
-  @override
   Future<bool> requestPermission() async {
     final result = await _location.requestPermission();
     return result == PermissionStatus.granted || result == PermissionStatus.grantedLimited;
   }
 
-  @override
   Future<bool> requestService() async {
     return _location.requestService();
   }
 
-  @override
   Future<bool> serviceEnabled() {
     return _location.serviceEnabled();
   }

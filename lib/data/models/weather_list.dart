@@ -37,6 +37,7 @@ class WeatherListItem {
         visibility: json['visibility'],
         pop: json['pop'].toDouble(),
         rain: json['rain'] != null ? Rain.fromJson(json['rain']) : null,
+        snow: json['snow'] != null ? Snow.fromJson(json['snow']) : null,
         sys: Sys.fromJson(json['sys']),
         dtTxt: json['dt_txt'],
       );
@@ -81,13 +82,13 @@ class Rain {
 }
 
 class Snow {
-  final String threeHours;
+  final double threeHours;
 
   const Snow({
     required this.threeHours,
   });
 
-  Snow.fromJson(Map<String, dynamic> json) : threeHours = json['3h'];
+  factory Snow.fromJson(Map<String, dynamic> json) => Snow(threeHours: json['3h']);
 }
 
 class Sys {

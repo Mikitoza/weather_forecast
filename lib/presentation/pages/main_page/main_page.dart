@@ -24,23 +24,38 @@ class _MainPageState extends State<MainPage> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    hasNetwork();
+  }
+
+  void hasNetwork() async {
+    await _cubit.hasNetwork() ? _cubit.changeIsConnect(true) : _cubit.changeIsConnect(false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainCubit, MainState>(
       listenWhen: (previous, current) {
         return previous.isError != current.isError ||
-        previous.pageIndex != current.pageIndex;
+            previous.pageIndex != current.pageIndex ||
+            previous.isConnect != current.isConnect;
       },
       listener: (context, state) async {
         if (state.isError) {
-          _showMyDialog('Test');
+          _showMyDialog('Some problems');
         }
-        if (state.pageIndex == 1){
+        if (state.pageIndex == 1) {
           _cubit.setCity();
         }
-        if (state.pageIndex == 0){
+        if (state.pageIndex == 0) {
           _cubit.setTitle('Today');
         }
+        if (state.isConnect == false) {
+          _showMyDialog('No connection');
+        }
         _cubit.changeIsError(false);
+        _cubit.changeIsConnect(true);
       },
       bloc: _cubit,
       builder: (context, state) {

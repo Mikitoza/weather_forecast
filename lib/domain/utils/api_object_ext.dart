@@ -1,14 +1,13 @@
 import 'package:weather_forecast/data/models/api_object.dart';
 import 'package:weather_forecast/domain/entities/forecast_tile.dart';
 import 'package:weather_forecast/domain/entities/weather.dart';
-import 'package:weather_forecast/domain/utils/doube_ext.dart';
+import 'package:weather_forecast/domain/utils/double_ext.dart';
 
 extension ApiObjectToWeater on ApiObject {
-
   Weather parseItemToToday() {
     return Weather(
       city: city.name,
-      rain: weathers.first.rain?.threeHours,
+      rain: weathers.first.rain?.threeHours ?? weathers.first.snow?.threeHours,
       pop: (weathers.first.pop * 100).toInt(),
       main: weathers.first.weather.main,
       pressure: weathers.first.main.pressure,
@@ -16,6 +15,7 @@ extension ApiObjectToWeater on ApiObject {
       windSpeed: weathers.first.wind.speed.toInt(),
       temperature: weathers.first.main.temp.toInt(),
       country: city.country,
+      icon: weathers.first.weather.icon,
     );
   }
 

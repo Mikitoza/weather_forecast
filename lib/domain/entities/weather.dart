@@ -8,6 +8,7 @@ class Weather {
   final int pressure;
   final int windSpeed;
   final String windDirection;
+  final String icon;
 
   const Weather({
     required this.city,
@@ -18,6 +19,7 @@ class Weather {
     required this.windSpeed,
     required this.temperature,
     required this.country,
+    required this.icon,
     this.rain,
   });
 }

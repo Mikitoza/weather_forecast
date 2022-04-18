@@ -19,6 +19,8 @@ class TodayTabCubit extends Cubit<TodayTabState> {
             windSpeed: 0,
             windDirection: 'SE',
             isError: false,
+            icon: '01d',
+            isLoading: true,
           ),
         );
 
@@ -39,6 +41,8 @@ class TodayTabCubit extends Cubit<TodayTabState> {
           pressure: weather.pressure,
           windSpeed: weather.windSpeed,
           windDirection: weather.windDirection,
+          icon: weather.icon,
+          isLoading: false,
         ),
       );
     }

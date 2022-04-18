@@ -11,6 +11,7 @@ class ForecastTabCubit extends Cubit<ForecastTabState> {
           ForecastTabState(
             forecast: [],
             isError: false,
+            isLoading: true,
           ),
         );
 
@@ -19,7 +20,10 @@ class ForecastTabCubit extends Cubit<ForecastTabState> {
     if (location == null) {
       changeIsError(true);
     } else {
-      emit(state.copyWith(forecast: await _forecastUseCase.getForecast(location)));
+      emit(state.copyWith(
+        forecast: await _forecastUseCase.getForecast(location),
+        isLoading: false,
+      ));
     }
   }
 

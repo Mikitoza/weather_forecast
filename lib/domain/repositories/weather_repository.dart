@@ -1,10 +1,9 @@
-import 'package:weather_forecast/data/datasources/interfaces/i_remote_data_sources.dart';
+import 'package:weather_forecast/data/datasources/remote_data_source.dart';
 import 'package:weather_forecast/data/models/api_object.dart';
 import 'package:weather_forecast/data/models/location.dart';
-import 'package:weather_forecast/data/repositories/i_weather_repository.dart';
 
-class WeatherRepository implements IWeatherRepository {
-  final IRemoteDataSource _remoteDataSource;
+class WeatherRepository{
+  final RemoteDataSource _remoteDataSource;
 
   WeatherRepository(this._remoteDataSource);
 

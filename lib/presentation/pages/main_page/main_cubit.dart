@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast/domain/usecases/main_usecase.dart';
 import 'package:weather_forecast/presentation/pages/main_page/main_state.dart';
@@ -12,6 +14,7 @@ class MainCubit extends Cubit<MainState> {
             title: 'Today',
             pageIndex: 0,
             isError: false,
+            isConnect: true,
           ),
         );
 
@@ -34,5 +37,18 @@ class MainCubit extends Cubit<MainState> {
 
   void changeIsError(bool isError) {
     emit(state.copyWith(isError: isError));
+  }
+
+  void changeIsConnect(bool isConnect) {
+    emit(state.copyWith(isConnect: isConnect));
+  }
+
+  Future<bool> hasNetwork() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 }

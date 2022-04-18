@@ -1,12 +1,12 @@
 import 'package:weather_forecast/data/models/location.dart';
-import 'package:weather_forecast/data/platfrom_client/interfaces/i_location_client.dart';
-import 'package:weather_forecast/data/repositories/i_weather_repository.dart';
+import 'package:weather_forecast/data/platfrom_client/location_client.dart';
+import 'package:weather_forecast/domain/repositories/weather_repository.dart';
 import 'package:weather_forecast/domain/entities/weather.dart';
 import 'package:weather_forecast/domain/utils/api_object_ext.dart';
 
 class TodayUseCase {
-  final IWeatherRepository _weatherRepository;
-  final ILocationClient _locationClient;
+  final WeatherRepository _weatherRepository;
+  final LocationClient _locationClient;
 
   TodayUseCase(
     this._weatherRepository,

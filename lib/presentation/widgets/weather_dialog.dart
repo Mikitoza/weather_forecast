@@ -11,7 +11,7 @@ class WeatherDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('AlertDialog Title'),
+      title: const Text('Error'),
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[

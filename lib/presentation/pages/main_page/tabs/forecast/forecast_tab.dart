@@ -6,6 +6,7 @@ import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/fore
 import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_state.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
+import 'package:weather_forecast/presentation/utils/string_ext.dart';
 import 'package:weather_forecast/presentation/utils/weather_dimens.dart';
 import 'package:weather_forecast/presentation/widgets/weather_dialog.dart';
 
@@ -33,25 +34,29 @@ class _ForecastTabState extends State<ForecastTab> {
       },
       listener: (context, state) async {
         if (state.isError) {
-          _showMyDialog('Test');
+          _showMyDialog('Some problems');
         }
         _cubit.changeIsError(false);
       },
       bloc: _cubit,
       builder: (context, state) {
-        return ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: state.forecast.length,
-          itemBuilder: (context, index) =>
-              index == 0 || state.forecast[index].time.day != state.forecast[index - 1].time.day
-                  ? _weatherListTileWithWeekDay(state.forecast[index])
-                  : _weatherListTile(
-                      state.forecast[index],
-                      isNotBordered: index != state.forecast.length
-                          ? true
-                          : state.forecast[index].time.day != state.forecast[index + 1].time.day,
-                    ),
-        );
+        return state.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: state.forecast.length,
+                itemBuilder: (context, index) => index == 0 ||
+                        state.forecast[index].time.day != state.forecast[index - 1].time.day
+                    ? _weatherListTileWithWeekDay(state.forecast[index])
+                    : _weatherListTile(
+                        state.forecast[index],
+                        isNotBordered: index != state.forecast.length - 1
+                            ? state.forecast[index].time.day != state.forecast[index + 1].time.day
+                            : true,
+                      ),
+              );
       },
     );
   }
@@ -64,10 +69,10 @@ class _ForecastTabState extends State<ForecastTab> {
           children: [
             Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(16),
+                Padding(
+                  padding: const EdgeInsets.all(16),
                   child: Icon(
-                    Icons.wb_sunny_outlined,
+                    tile.icon.parseIcon(),
                     size: 60,
                     color: Colors.yellow,
                   ),
