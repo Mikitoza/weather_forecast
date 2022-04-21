@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast/domain/entities/forecast_tile.dart';
 import 'package:weather_forecast/injector.dart';
-import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_cubit.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_event.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_state.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
@@ -18,29 +19,28 @@ class ForecastTab extends StatefulWidget {
 }
 
 class _ForecastTabState extends State<ForecastTab> {
-  final _cubit = locator.get<ForecastTabCubit>();
+  final _bloc = locator.get<ForecastTabBloc>();
 
   @override
   void initState() {
-    _cubit.init();
+    _bloc.add(ForecastTabInitializeEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ForecastTabCubit, ForecastTabState>(
+    return BlocConsumer<ForecastTabBloc, ForecastTabState>(
       listenWhen: (previous, current) {
-        return previous.isError != current.isError;
+        return previous.status != current.status;
       },
       listener: (context, state) async {
-        if (state.isError) {
-          _showMyDialog('Some problems');
+        if (state.status.isError) {
+          _showMyDialog(state.errorDesc);
         }
-        _cubit.changeIsError(false);
       },
-      bloc: _cubit,
+      bloc: _bloc,
       builder: (context, state) {
-        return state.isLoading
+        return state.status.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )

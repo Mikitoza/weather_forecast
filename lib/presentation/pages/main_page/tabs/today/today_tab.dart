@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:weather_forecast/injector.dart';
-import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_cubit.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_event.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_state.dart';
 import 'package:weather_forecast/presentation/theme/theme_provider.dart';
 import 'package:weather_forecast/presentation/utils/string_ext.dart';
@@ -16,29 +17,28 @@ class TodayTab extends StatefulWidget {
 }
 
 class _TodayTabState extends State<TodayTab> {
-  final _cubit = locator.get<TodayTabCubit>();
+  final _bloc = locator.get<TodayTabBloc>();
 
   @override
   void initState() {
-    _cubit.init();
+    _bloc.add(TodayTabInitializeEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TodayTabCubit, TodayTabState>(
+    return BlocConsumer<TodayTabBloc, TodayTabState>(
       listenWhen: (previous, current) {
-        return previous.isError != current.isError;
+        return previous.status != current.status;
       },
       listener: (context, state) async {
-        if (state.isError) {
-          _showMyDialog('Some problems');
+        if (state.status.isError) {
+          _showMyDialog(state.errorDesc);
         }
-        _cubit.changeIsError(false);
       },
-      bloc: _cubit,
+      bloc: _bloc,
       builder: (context, state) {
-        return state.isLoading
+        return state.status.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )

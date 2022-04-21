@@ -7,7 +7,6 @@ class WeatherRepository{
 
   WeatherRepository(this._remoteDataSource);
 
-  @override
   Future<ApiObject> getCity(Location location) async {
     return _remoteDataSource.getWeathersList(location);
   }

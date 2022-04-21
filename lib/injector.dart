@@ -5,10 +5,10 @@ import 'package:weather_forecast/domain/repositories/weather_repository.dart';
 import 'package:weather_forecast/domain/usecases/forecast_usecase.dart';
 import 'package:weather_forecast/domain/usecases/main_usecase.dart';
 import 'package:weather_forecast/domain/usecases/today_usecase.dart';
-import 'package:weather_forecast/presentation/app/app_cubit.dart';
-import 'package:weather_forecast/presentation/pages/main_page/main_cubit.dart';
-import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_cubit.dart';
-import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_cubit.dart';
+import 'package:weather_forecast/presentation/app/app_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/main_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab_bloc.dart';
 
 final locator = GetIt.instance;
 
@@ -17,7 +17,7 @@ void setUp() {
   _setUpPlatform();
   _setUpRepositories();
   _setUpUseCases();
-  _setUpCubits();
+  _setUpBlocs();
 }
 
 void _setUpDataSources() {
@@ -28,7 +28,7 @@ void _setUpDataSources() {
 
 void _setUpPlatform() {
   locator.registerFactory<LocationClient>(
-        () => LocationClient(),
+    () => LocationClient(),
   );
 }
 
@@ -61,22 +61,22 @@ void _setUpUseCases() {
   );
 }
 
-void _setUpCubits() {
-  locator.registerFactory<MainCubit>(
-    () => MainCubit(
+void _setUpBlocs() {
+  locator.registerFactory<MainBloc>(
+    () => MainBloc(
       locator.get(),
     ),
   );
-  locator.registerFactory<AppCubit>(
-    () => AppCubit(),
+  locator.registerFactory<AppBloc>(
+    () => AppBloc(),
   );
-  locator.registerFactory<TodayTabCubit>(
-    () => TodayTabCubit(
+  locator.registerFactory<TodayTabBloc>(
+    () => TodayTabBloc(
       locator.get<TodayUseCase>(),
     ),
   );
-  locator.registerFactory<ForecastTabCubit>(
-    () => ForecastTabCubit(
+  locator.registerFactory<ForecastTabBloc>(
+    () => ForecastTabBloc(
       locator.get<ForecastUseCase>(),
     ),
   );

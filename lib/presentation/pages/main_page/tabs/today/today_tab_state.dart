@@ -1,5 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+enum TodayTabStateStatus { initial, success, error, loading }
+
+extension TodayTabStateStatusX on TodayTabStateStatus {
+  bool get isInitial => this == TodayTabStateStatus.initial;
+  bool get isSuccess => this == TodayTabStateStatus.success;
+  bool get isError => this == TodayTabStateStatus.error;
+  bool get isLoading => this == TodayTabStateStatus.loading;
+}
+
 class TodayTabState extends Equatable {
   final String city;
   final String country;
@@ -11,22 +20,22 @@ class TodayTabState extends Equatable {
   final int windSpeed;
   final String windDirection;
   final String icon;
-  final bool isError;
-  final bool isLoading;
+  final TodayTabStateStatus status;
+  final String errorDesc;
 
   const TodayTabState({
-    required this.city,
-    required this.country,
-    required this.main,
-    required this.temperature,
-    required this.pop,
-    required this.volume,
-    required this.pressure,
-    required this.windSpeed,
-    required this.windDirection,
-    required this.isError,
-    required this.icon,
-    required this.isLoading,
+    this.city = '',
+    this.country = '',
+    this.main = '',
+    this.temperature = 0,
+    this.pop = 0,
+    this.volume = 0.0,
+    this.pressure = 0,
+    this.windSpeed = 0,
+    this.windDirection = 'SE',
+    this.icon = '01d',
+    this.status = TodayTabStateStatus.initial,
+    this.errorDesc = '',
   });
 
   TodayTabState copyWith({
@@ -39,9 +48,9 @@ class TodayTabState extends Equatable {
     int? pressure,
     int? windSpeed,
     String? windDirection,
-    bool? isError,
-    bool? isLoading,
     String? icon,
+    TodayTabStateStatus? status,
+    String? errorDesc,
   }) {
     return TodayTabState(
       city: city ?? this.city,
@@ -53,9 +62,9 @@ class TodayTabState extends Equatable {
       pressure: pressure ?? this.pressure,
       windSpeed: windSpeed ?? this.windSpeed,
       windDirection: windDirection ?? this.windDirection,
-      isError: isError ?? this.isError,
       icon: icon ?? this.icon,
-      isLoading: isLoading ?? this.isLoading,
+      status: status ?? this.status,
+      errorDesc: errorDesc ?? this.errorDesc,
     );
   }
 
@@ -68,6 +77,7 @@ class TodayTabState extends Equatable {
         pressure,
         windSpeed,
         windDirection,
-        isError,
+        status,
+        errorDesc,
       ];
 }

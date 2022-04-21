@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast/injector.dart';
-import 'package:weather_forecast/presentation/pages/main_page/main_cubit.dart';
+import 'package:weather_forecast/presentation/pages/main_page/main_bloc.dart';
+import 'package:weather_forecast/presentation/pages/main_page/main_event.dart';
 import 'package:weather_forecast/presentation/pages/main_page/main_state.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/forecast/forecast_tab.dart';
 import 'package:weather_forecast/presentation/pages/main_page/tabs/today/today_tab.dart';
@@ -18,7 +19,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final _cubit = locator.get<MainCubit>();
+  final _bloc = locator.get<MainBloc>();
   final _controller = PageController(
     initialPage: 0,
   );
@@ -30,34 +31,21 @@ class _MainPageState extends State<MainPage> {
   }
 
   void hasNetwork() async {
-    await _cubit.hasNetwork() ? _cubit.changeIsConnect(true) : _cubit.changeIsConnect(false);
+    _bloc.add(MainCheckNetworkEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MainCubit, MainState>(
+    return BlocConsumer<MainBloc, MainState>(
       listenWhen: (previous, current) {
-        return previous.isError != current.isError ||
-            previous.pageIndex != current.pageIndex ||
-            previous.isConnect != current.isConnect;
+        return previous.status != current.status;
       },
       listener: (context, state) async {
-        if (state.isError) {
-          _showMyDialog('Some problems');
+        if (state.status.isError) {
+          _showMyDialog(state.errorDesc);
         }
-        if (state.pageIndex == 1) {
-          _cubit.setCity();
-        }
-        if (state.pageIndex == 0) {
-          _cubit.setTitle('Today');
-        }
-        if (state.isConnect == false) {
-          _showMyDialog('No connection');
-        }
-        _cubit.changeIsError(false);
-        _cubit.changeIsConnect(true);
       },
-      bloc: _cubit,
+      bloc: _bloc,
       builder: (context, state) {
         return Scaffold(
           backgroundColor: ThemeProvider.of(context).theme.primaryBackgroundColor,
@@ -71,7 +59,7 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
           body: PageView(
-            onPageChanged: (index) => _cubit.setTab(index),
+            onPageChanged: (index) => _bloc.add(MainChangeTabEvent(index)),
             controller: _controller,
             children: const [
               KeepAlivePage(child: TodayTab()),
@@ -82,7 +70,7 @@ class _MainPageState extends State<MainPage> {
             currentIndex: state.pageIndex,
             onTap: (int index) {
               _controller.jumpToPage(index);
-              _cubit.setTab(index);
+              _bloc.add(MainChangeTabEvent(index));
             },
             backgroundColor: ThemeProvider.of(context).theme.primaryBackgroundColor,
             items: const [
@@ -104,7 +92,7 @@ class _MainPageState extends State<MainPage> {
   Future<void> _showMyDialog(String desc) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return WeatherDialog(
           desc: desc,
