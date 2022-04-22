@@ -1,7 +1,7 @@
 name: weather_forecast
 description: A simple application for weather forecasting. It should show the actual weather for your current location.
 
-publish_to:
+publish_to: none
 version: 1.0.0+1
 
 environment:

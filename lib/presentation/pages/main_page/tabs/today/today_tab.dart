@@ -44,12 +44,14 @@ class _TodayTabState extends State<TodayTab> {
               )
             : Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
-                    child: Icon(
-                      state.icon.parseIcon(),
-                      size: 120,
-                      color: ThemeProvider.of(context).theme.accentColor,
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.08),
+                      child: Icon(
+                        state.icon.parseIcon(),
+                        size: 120,
+                        color: ThemeProvider.of(context).theme.accentColor,
+                      ),
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
